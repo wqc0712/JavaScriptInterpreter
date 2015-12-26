@@ -34,6 +34,7 @@ public class Executor {
 	//运行语句的方法，给语法分析器调用
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
+		if(statementArraylist.size()!=0){
 		if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){ //不是函数定义中的语句
 			
 			if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
@@ -79,6 +80,13 @@ public class Executor {
 			else {
 				functionArraylist.get(functionArraylist.size()-1).getFunctionBody().add(statement);
 				result=true;
+			}
+		}
+		}
+		else{
+			result=statement.executeStatement();
+			if (waitElse) {
+				waitElse=false;
 			}
 		}
 		return result;
