@@ -3,7 +3,6 @@
 import Interpreter.*;
 
 import java.util.ArrayList;
-import java.util.zip.DeflaterOutputStream;
 
 /**
  * Created by tom on 15/12/23.
