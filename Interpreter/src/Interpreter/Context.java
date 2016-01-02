@@ -1,3 +1,8 @@
+
+
+import StatementClasses.VarDeclStatement;
+import StatementExecuteClasses.Executor;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -25,6 +30,7 @@ public class Context {
     private int Expression2;
     private int Expression3;
     private ArrayList<Integer> argms;
+    Executor Exe = null;
     //private SingleExpression S1;
     /*
         0------------idle
@@ -44,6 +50,7 @@ public class Context {
         14-----------While Statement, Reading for statement
         15-----------Function Declaration, havn't meet Function Body
         16-----------Function Declaration, meeting function body
+        17-----------New Statement
      */
 
     public int initial() {
@@ -52,7 +59,9 @@ public class Context {
         identifier = "";
         varinit = false;
         //S1 = NULL;
+        Exe = new Executor();
         return 0;
+
     }
 
     public int blockstart() {
@@ -96,11 +105,13 @@ public class Context {
     public int EndVarDef() {
         statue.pop();
         System.out.println("Var Define:"+identifier);
-        /*
-            Create a VarDefObject
-            VarName = identifier;
-            VarDefObject.executeStatement;
-         */
+        VarDeclStatement varDeclStatement=new VarDeclStatement(identifier);
+        try {
+            Exe.ExecuteStatement(varDeclStatement);
+        } catch (Exception E) {
+
+        }
+
         if (varinit == true) {
             /*
                 Create a ValueAssignStatement
@@ -342,6 +353,16 @@ public class Context {
     }
 
     public int FunctionBodyEnd() {
+        statue.pop();
+        return 0;
+    }
+
+    public int NewExpressionBegin() {
+        statue.push(17);
+        return 0;
+    }
+
+    public int NewExpressionEnd() {
         statue.pop();
         return 0;
     }

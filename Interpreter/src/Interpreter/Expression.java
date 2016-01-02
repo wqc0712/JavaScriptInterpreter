@@ -22,6 +22,7 @@ public class Expression {
         10---Arguments Expression
         11---ArrayMemberExpression
         12---MemberDotExpression
+        13---New Expression
      */
     public int Type;
     public int lefthand;
