@@ -1,4 +1,4 @@
-
+package Interpreter;
 
 import StatementClasses.VarDeclStatement;
 import StatementExecuteClasses.Executor;
