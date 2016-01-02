@@ -1,5 +1,6 @@
 package Interpreter;
 
+import StatementClasses.ExpressionStatement;
 import StatementClasses.VarDeclStatement;
 import StatementExecuteClasses.Executor;
 
@@ -113,11 +114,10 @@ public class Context {
         }
 
         if (varinit == true) {
-            /*
-                Create a ValueAssignStatement
-                VarName = identifier;
-                Value = Expression1;
-             */
+           /* ExpressionStatement E = new ExpressionStatement(Expression1);
+            try {
+                Exe
+            }*/
             varinit = false;
         }
         return 0;
@@ -247,12 +247,14 @@ public class Context {
     public int EndExpression(int index) {
         statue.pop();
         int s = statue.peek();
-        if (s == 1 || s == 6 || s == 5 || s == 12 || s == 14
-            /*&& something else */) {
-            /*
-                create a new expression
-                place = index
-             */
+        if (s == 1 || s == 6 || s == 5 || s == 12 || s == 14 || s == 0
+            /*&& something else */){
+            try {
+                ExpressionStatement E = new ExpressionStatement(index);
+                Exe.ExecuteStatement(E);
+            } catch (Exception E) {
+
+            }
         }
         return 0;
     }
