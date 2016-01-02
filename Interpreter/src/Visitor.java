@@ -1,3 +1,7 @@
+
+
+import Interpreter.*;
+
 import java.util.ArrayList;
 import java.util.zip.DeflaterOutputStream;
 
@@ -830,6 +834,13 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
 
     @Override
     public Integer visitNewExpression(ECMAScriptParser.NewExpressionContext ctx) {
+        int index = ExpressionQueue.getInstance().nextIndex();
+        ExpressionQueue.getInstance().createExpression(13);
+        Expression E = ExpressionQueue.getInstance().Geti(index);
+        Context.getInstance().NewExpressionBegin();
+        E.righthand = ExpressionQueue.getInstance().nextIndex();
+        visit(ctx.singleExpression());
+        Context.getInstance().NewExpressionEnd();
         return null;
     }
 
