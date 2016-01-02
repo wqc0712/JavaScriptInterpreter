@@ -12,18 +12,18 @@ import java.util.ArrayList;
 public class Expression {
     /*
         Type Def:
-        1----literal, no matter a bool, string or number
-        2----operation has left hand and right hand
-        3----identifier
+        1----literal, no matter a bool, string or number有
+        2----operation has left hand and right hand有
+        3----identifier有
         4----This
-        5----Expression only have right hand
-        6----Expression only have left hand
+        5----Expression only have right hand有
+        6----Expression only have left hand有
         7----Delete Expression
         8----Void Expression
         9----Typeof Expression
         10---Arguments Expression
-        11---ArrayMemberExpression
-        12---MemberDotExpression
+        11---ArrayMemberExpression有
+        12---MemberDotExpression有
         13---New Expression
      */
     public int Type;
@@ -56,13 +56,13 @@ public class Expression {
         21----  %  mod
      */
 
-    public double numerical;
-    public String identifier;
-    public ArrayList<Integer> Parameter;
+    public double numerical;//数字
+    public String identifier;// 变量
+    public ArrayList<Integer> Parameter;//参数new
     public int Null;//0--normal,1--Null
     public String StringData; //""--not a string else a string
     public int booleanExp; //0--normal,1--true,-1--false
-    public int index;
+    public int index;//11-数组表达式的index
 
     public Expression(int T) {
         Type = T;
