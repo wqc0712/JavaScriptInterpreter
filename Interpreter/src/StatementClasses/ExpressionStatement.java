@@ -27,27 +27,33 @@ public class ExpressionStatement extends Statement {
     public int getIndex() {
         return index;
     }
-
     public void setIndex(int index) {
         this.index = index;
     }
-
+    //给词法语法分析调用
     public boolean executeStatement(){
         boolean result =true;
         System.out.println("excecute-ExpressionStatement");
         try {
-            executeExpression(index);
-
+            Value v=executeExpression(index);
+            if(v.getType()==2){
+                System.out.println(v.getStringvalue());
+            }
+            else if(v.getType()==3){
+                System.out.println(v.getBooleanvalue());
+            }
+            else if(v.getType()==4){
+                System.out.println(v.getDoublevalue());
+            }
         }
         catch (Exception e){
             result=false;
             System.out.println(e);
         }
-//		Executor executor=new Executor();
         return result;
     }
-
-    private Value executeExpression(int index) throws Exception{
+    //给其他语句调用
+    public Value executeExpression(int index) throws Exception{
         Value result=new Value();
         if (ExpressionQueue.getInstance().Geti(index).operator==6){//赋值语句
             result=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand);
@@ -158,7 +164,7 @@ public class ExpressionStatement extends Statement {
         else{
             if(ExpressionQueue.getInstance().Geti(index).Type==1){//值
                 if(ExpressionQueue.getInstance().Geti(index).booleanExp==0){//normal
-                    if (ExpressionQueue.getInstance().Geti(index).StringData.equals("")){//非字符串
+                    if (ExpressionQueue.getInstance().Geti(index).StringData==null){//非字符串
                         if(ExpressionQueue.getInstance().Geti(index).Null==0){//非空
                             result=new Value(ExpressionQueue.getInstance().Geti(index).numerical,4);
                         }

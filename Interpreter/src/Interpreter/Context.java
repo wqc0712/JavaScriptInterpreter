@@ -253,7 +253,7 @@ public class Context {
                 ExpressionStatement E = new ExpressionStatement(index);
                 Exe.ExecuteStatement(E);
             } catch (Exception E) {
-
+                E.printStackTrace();
             }
         }
         return 0;

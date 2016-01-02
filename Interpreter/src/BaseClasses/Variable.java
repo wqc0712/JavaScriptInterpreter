@@ -9,7 +9,7 @@ package BaseClasses;
  */
 public class Variable {
 	String name;
-	public Value value;
+	public Value value=null;
 	private int scope;//作用域
 	
 	public Variable(String name, int scope) {

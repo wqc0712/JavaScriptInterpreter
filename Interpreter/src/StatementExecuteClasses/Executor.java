@@ -13,7 +13,6 @@ import BaseClasses.Variable;
 import StatementClasses.ElseStatement;
 import StatementClasses.FuncCallStatement;
 import StatementClasses.OverSegStatement;
-import StatementClasses.ValueAssignStatement;
 import StatementClasses.VarDeclStatement;
 
 /**
@@ -132,30 +131,5 @@ public class Executor {
 		}
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Executor executor=new Executor();
-		try {
-			VarDeclStatement varDeclStatement=new VarDeclStatement("hello");	
-			executor.ExecuteStatement(varDeclStatement);
-			System.out.println(varArraylist.size());
-			System.out.println(varArraylist.get(0).getName());
-			
-			String leftvalue="hello";
-			Value value=new Value("hhh",2);
-			ValueAssignStatement valueAssignStatement=new ValueAssignStatement(leftvalue,value);
-			executor.ExecuteStatement(valueAssignStatement);
-			System.out.println(varArraylist.get(0).getValue().getStringvalue());
-			
-			FuncCallStatement funcCallStatement=new FuncCallStatement();
-			valueAssignStatement=new ValueAssignStatement(leftvalue, funcCallStatement);
-			executor.ExecuteStatement(valueAssignStatement);
-			System.out.println(varArraylist.get(0).getValue().getDoublevalue());
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		
-	}
+
 }

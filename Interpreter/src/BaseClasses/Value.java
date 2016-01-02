@@ -204,12 +204,28 @@ public class Value {
 		return result;
 	}
 
-	public Value logicAnd(Value valueb){
+	public Value logicAnd(Value valueb) throws Exception {
 		Value result=new Value();
+		if(this.type!=3||valueb.getType()!=3){
+			throw new Exception("对象类型不支持该运算符.");
+		}
+		else{
+			boolean bv=this.getBooleanvalue()&&valueb.getBooleanvalue();
+			result.setBooleanvalue(bv);
+			result.setType(3);
+		}
 		return result;
 	}
-	public Value logicOr(Value valueb){
+	public Value logicOr(Value valueb) throws Exception {
 		Value result=new Value();
+		if(this.type!=3||valueb.getType()!=3){
+			throw new Exception("对象类型不支持该运算符.");
+		}
+		else{
+			boolean bv=this.getBooleanvalue()||valueb.getBooleanvalue();
+			result.setBooleanvalue(bv);
+			result.setType(3);
+		}
 		return result;
 	}
 	public Value bitAnd(Value valueb){
@@ -227,7 +243,7 @@ public class Value {
 
 	public Value add(Value valueb)throws Exception{
 		Value result=new Value();
-		if(this.getType()!=1||this.getType()!=2||this.getType()!=4||valueb.getType()!=1||valueb.getType()!=2||valueb.getType()!=4){
+		if((this.getType()!=1&&this.getType()!=2&&this.getType()!=4)||(valueb.getType()!=1&&valueb.getType()!=2&&valueb.getType()!=4)){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -260,7 +276,7 @@ public class Value {
 	}
 	public Value minus(Value valueb) throws Exception {
 		Value result=new Value();
-		if(this.getType()!=1||this.getType()!=4||valueb.getType()!=1||valueb.getType()!=4){
+		if(this.getType()!=4||valueb.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -272,7 +288,7 @@ public class Value {
 	}
 	public Value multiple(Value valueb) throws Exception {
 		Value result=new Value();
-		if(this.getType()!=1||this.getType()!=4||valueb.getType()!=1||valueb.getType()!=4){
+		if(this.getType()!=4||valueb.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -284,7 +300,7 @@ public class Value {
 	}
 	public Value divide(Value valueb) throws Exception {
 		Value result=new Value();
-		if(this.getType()!=1||this.getType()!=4||valueb.getType()!=1||valueb.getType()!=4){
+		if(this.getType()!=4||valueb.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -296,7 +312,7 @@ public class Value {
 	}
 	public Value mod(Value valueb) throws Exception {
 		Value result=new Value();
-		if(this.getType()!=1||this.getType()!=4||valueb.getType()!=1||valueb.getType()!=4){
+		if(this.getType()!=4||valueb.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -310,7 +326,7 @@ public class Value {
 	public Value addself(boolean valueb) throws Exception {
 		Value result=new Value();
 
-		if(this.getType()!=1||this.getType()!=4){
+		if(this.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
@@ -328,7 +344,7 @@ public class Value {
 	public Value minusself(boolean valueb) throws Exception {
 		Value result=new Value();
 
-		if(this.getType()!=1||this.getType()!=4){
+		if(this.getType()!=4){
 			throw new Exception("对象类型不支持该运算符.");
 		}
 		else{
