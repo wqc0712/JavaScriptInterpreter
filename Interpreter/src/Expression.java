@@ -10,18 +10,18 @@ import java.util.ArrayList;
 public class Expression {
     /*
         Type Def:
-        1----literal, no matter a bool, string or number
-        2----operation has left hand and right hand
-        3----identifier
+        1----literal, no matter a bool, string or number值
+        2----operation has left hand and right hand左值+右值
+        3----identifier变量
         4----This
         5----Expression only have right hand
         6----Expression only have left hand
-        7----Delete Expression
+        7----Delete Expression删除对象
         8----Void Expression
         9----Typeof Expression
         10---Arguments Expression
-        11---ArrayMemberExpression
-        12---MemberDotExpression
+        11---ArrayMemberExpression//a[]
+        12---MemberDotExpression//a.
      */
     public int Type;
     public int lefthand;

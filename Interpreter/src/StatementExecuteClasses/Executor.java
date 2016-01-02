@@ -21,7 +21,7 @@ import StatementClasses.VarDeclStatement;
  *
  */
 public class Executor {
-	
+
 	public static int currentScope=0;//当前作用域的值
 	public static ArrayList<Variable> varArraylist=new ArrayList<Variable>();//变量的list
 //	private static Value returnvalue=new  Value(0,1);
