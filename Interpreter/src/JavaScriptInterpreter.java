@@ -37,6 +37,7 @@ public class JavaScriptInterpreter {
                     }
                 }
             }
+            System.out.print(">>");
             String line = scanner.nextLine();
             int c = count(line);
             while (c != 0) {

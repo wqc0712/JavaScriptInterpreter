@@ -1,7 +1,6 @@
 package Interpreter;
 
-import StatementClasses.ExpressionStatement;
-import StatementClasses.VarDeclStatement;
+import StatementClasses.*;
 import StatementExecuteClasses.Executor;
 
 import java.util.ArrayList;
@@ -69,6 +68,14 @@ public class Context {
         if (statue.peek() == 2) {
             return -1;
         } else {
+            if (statue.peek() != 5 && statue.peek() != 6) {
+                NewSegStatement E = new NewSegStatement();
+                try {
+                    Exe.ExecuteStatement(E);
+                } catch (Exception Err) {
+                    Err.printStackTrace();
+                }
+            }
             statue.push(1);
             return 0;
         }
@@ -78,6 +85,12 @@ public class Context {
         if (statue.peek() == 2) {
             return -1;
         } else {
+            OverSegStatement E = new OverSegStatement();
+            try {
+                Exe.ExecuteStatement(E);
+            } catch (Exception Err) {
+                Err.printStackTrace();
+            }
             statue.pop();
             return 0;
         }
@@ -166,6 +179,12 @@ public class Context {
         } else {
             statue.pop();
             statue.push(5);
+            IfStatement E = new IfStatement(Expression1);
+            try {
+                Exe.ExecuteStatement(E);
+            } catch (Exception Err) {
+                Err.printStackTrace();
+            }
             /*
                 Create a if statement
                 Condition = Expression1
@@ -181,6 +200,12 @@ public class Context {
         } else {
             statue.pop();
             statue.push(6);
+            ElseStatement E = new ElseStatement();
+            try {
+                Exe.ExecuteStatement(E);
+            } catch (Exception Err) {
+                Err.printStackTrace();
+            }
             /*
                 Create a else statement;
              */
