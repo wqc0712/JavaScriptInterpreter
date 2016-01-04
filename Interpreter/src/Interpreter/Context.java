@@ -68,7 +68,7 @@ public class Context {
         if (statue.peek() == 2) {
             return -1;
         } else {
-            if (statue.peek() != 5 && statue.peek() != 6) {
+            if (statue.peek() != 5 && statue.peek() != 6 && statue.peek() != 12 && statue.peek() != 16 && statue.peek() != 14) {
                 NewSegStatement E = new NewSegStatement();
                 try {
                     Exe.ExecuteStatement(E);
@@ -154,6 +154,7 @@ public class Context {
 
     public int SignalReturn() {
         statue.push(3);
+        Expression1 = -1;
         System.out.println("Return!");
         return 0;
     }
