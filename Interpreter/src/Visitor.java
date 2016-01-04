@@ -954,6 +954,8 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
             if (ctx.StringLiteral() != null) {
                 temp = ctx.StringLiteral().getText();
                 E.StringData = temp;
+                E.StringData.replace("\'","");
+                E.StringData.replace("\"","");
             } else {
                 E.StringData = null;
                 if (ctx.NullLiteral() != null) {
