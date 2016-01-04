@@ -227,7 +227,6 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
         if (ctx.expressionSequence() != null) {
             visit(ctx.expressionSequence());
         } else {
-            //TODO make return value 0
         }
         Context.getInstance().EndofReturn();
         return null;
@@ -442,7 +441,10 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
     @Override
     public Integer visitArgumentList(ECMAScriptParser.ArgumentListContext ctx) {
         int i = 0;
+        ArrayList<Integer> A = Context.getInstance().AskForArgument();
         while (ctx.singleExpression(i) != null) {
+            int index = ExpressionQueue.getInstance().nextIndex();
+            A.add(index);
             visit(ctx.singleExpression(i));
             i++;
         }
@@ -581,6 +583,15 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
 
     @Override
     public Integer visitFunctionExpression(ECMAScriptParser.FunctionExpressionContext ctx) {
+        Context.getInstance().FunctionDeclaration();
+        Context.getInstance().setIdentifier(ctx.Identifier().getText());
+        if (ctx.formalParameterList() != null) {
+            visit(ctx.formalParameterList());//TODO for the Parameter
+        }
+        ArrayList<Integer> a = Context.getInstance().SetFunctionPara();
+        Context.getInstance().FunctionBodyBegin();
+        visit(ctx.functionBody());
+        Context.getInstance().FunctionBodyEnd();
         return null;
     }
 
