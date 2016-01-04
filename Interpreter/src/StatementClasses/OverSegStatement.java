@@ -17,6 +17,9 @@ public class OverSegStatement extends Statement {
 		if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==3){//结束if语句
 			Executor.waitElse=true;
 		}
+		else if(Executor.isFuncCall){
+			Executor.isFuncCall=false;
+		}
 //		else if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==9){//结束函数定义
 //			Executor.funcDefFlag=false;
 //		}

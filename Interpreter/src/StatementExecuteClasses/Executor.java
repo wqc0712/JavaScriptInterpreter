@@ -10,10 +10,7 @@ import BaseClasses.Segment;
 import BaseClasses.Statement;
 import BaseClasses.Value;
 import BaseClasses.Variable;
-import StatementClasses.ElseStatement;
-import StatementClasses.FuncCallStatement;
-import StatementClasses.OverSegStatement;
-import StatementClasses.VarDeclStatement;
+import StatementClasses.*;
 
 /**
  * @author viki
@@ -35,53 +32,53 @@ public class Executor {
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
 		if(statementArraylist.size()!=0){
-		if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){ //不是函数定义中的语句
+			if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){ //不是函数定义中的语句
 			
-			if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
-				if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
-					result=statement.executeStatement();
-				}
-				else {
-					result=true;
-				}
-			}
-			else if(statementArraylist.get(statementArraylist.size()-1).type==4){//在else语句体中
-				if((!statementArraylist.get(statementArraylist.size()-1).trueOrfalse)||statement.getClass().equals(OverSegStatement.class)){//条件为否或是结束语句体语句，否则不执行该语句
-					result=statement.executeStatement();
-				}
-				else {
-					result=true;
-				}
-			}
-			else{
-				if(statement.getClass().equals(ElseStatement.class)){//else语句
-					if (!waitElse) {
-						result=false;
-						Exception exception=new Exception("当前不应该存在一个else语句");
-						throw exception;
+				if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
+					if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
+						result=statement.executeStatement();
 					}
-					else{
+					else {
+						result=true;
+					}
+				}
+				else if(statementArraylist.get(statementArraylist.size()-1).type==4){//在else语句体中
+					if((!statementArraylist.get(statementArraylist.size()-1).trueOrfalse)||statement.getClass().equals(OverSegStatement.class)){//条件为否或是结束语句体语句，否则不执行该语句
+						result=statement.executeStatement();
+					}
+					else {
+						result=true;
+					}
+				}
+				else{//既不在if又不在else中
+					if(statement.getClass().equals(ElseStatement.class)){//else语句
+						if (!waitElse) {
+							result=false;
+							Exception exception=new Exception("当前不应该存在一个else语句");
+							throw exception;
+						}
+						else{
+							result=statement.executeStatement();
+						}
+					}
+					else {//非else语句
 						result=statement.executeStatement();
 					}
 				}
-				else {
+				if (waitElse) {
+					waitElse=false;
+				}
+
+			}
+			else{//是函数定义中的语句，直接加入函数体
+				if(statement.getClass().equals(OverSegStatement.class)){//定义结束
 					result=statement.executeStatement();
 				}
+				else {
+					functionArraylist.get(functionArraylist.size()-1).getFunctionBody().add(statement);
+					result=true;
+				}
 			}
-			if (waitElse) {
-				waitElse=false;
-			}
-			
-		}
-		else{//是函数定义中的语句，直接加入函数体
-			if(statement.getClass().equals(OverSegStatement.class)){//定义结束
-				result=statement.executeStatement();
-			}
-			else {
-				functionArraylist.get(functionArraylist.size()-1).getFunctionBody().add(statement);
-				result=true;
-			}
-		}
 		}
 		else{
 			result=statement.executeStatement();

@@ -8,6 +8,7 @@ import Interpreter.ExpressionQueue;
 import StatementExecuteClasses.Executor;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * @author viki
@@ -160,6 +161,14 @@ public class ExpressionStatement extends Statement {
                 throw new Exception("对象key值必须为字符串");
             }
             return var.getValue().getObjectvalue().get(res.getStringvalue());
+        }
+        else if(ExpressionQueue.getInstance().Geti(index).Type==10){//函数
+            ArrayList<Integer> varArraylist=ExpressionQueue.getInstance().Geti(index).Parameter;
+            String funcname=ExpressionQueue.getInstance().Geti(ExpressionQueue.getInstance().Geti(index).lefthand).identifier;
+            FuncCallStatement fs=new FuncCallStatement(funcname,varArraylist);
+            if(fs.executeStatement()){//执行函数
+                result=Executor.getReturnvalue();
+            }
         }
         else{
             if(ExpressionQueue.getInstance().Geti(index).Type==1){//值
