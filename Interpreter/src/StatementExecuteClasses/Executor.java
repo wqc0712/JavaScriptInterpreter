@@ -22,6 +22,7 @@ import StatementClasses.VarDeclStatement;
 public class Executor {
 
 	public static int currentScope=0;//当前作用域的值
+	public static boolean isFuncCall=false;
 	public static ArrayList<Variable> varArraylist=new ArrayList<Variable>();//变量的list
 //	private static Value returnvalue=new  Value(0,1);
 	private static ArrayList<Value> returnvalue=new ArrayList<Value>();//返回值的list
@@ -104,12 +105,28 @@ public class Executor {
 	public static Variable getVariable(String name){//通过名字查找变量
 		Variable variable=new Variable("", -1);
 		for(int i=varArraylist.size();i>0;i--){
+			if(isFuncCall&&varArraylist.get(i-1).getScope()!=currentScope){
+				break;
+			}
 			if(varArraylist.get(i-1).getName().equals(name)){
 				variable=varArraylist.get(i-1);
 				break;
 			}
 		}
 		return variable;
+	}
+	public static Function getFunction(String name){//通过名字查找函数
+		Function func=null;
+		for(int i=functionArraylist.size();i>0;i--){
+			if(isFuncCall&&functionArraylist.get(i-1).getScope()!=currentScope){
+				break;
+			}
+			if(functionArraylist.get(i-1).getName().equals(name)){
+				func=functionArraylist.get(i-1);
+				break;
+			}
+		}
+		return func;
 	}
 	
 	public static void removeInvalidVarFunc(){//代码段结束，清除scope过期的变量、方法
