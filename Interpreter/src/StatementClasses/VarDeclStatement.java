@@ -21,7 +21,7 @@ public class VarDeclStatement extends Statement {
 
 	public boolean executeStatement(){
 		boolean result =true;
-		System.out.println("excecute-varDeclStatement");
+//		System.out.println("excecute-varDeclStatement");
 		
 //		Executor executor=new Executor();
 		Variable variable=new Variable(varname,Executor.currentScope);

@@ -20,7 +20,7 @@ public class WhileStatement extends Statement {
         boolean result =false;
         Executor.statementArraylist.add(new Segment(6));
 //        Executor.currentScope++;
-        System.out.println("execute-WhileStatement");
+//        System.out.println("execute-WhileStatement");
         ExpressionStatement es = new ExpressionStatement(index);
         Executor.statementArraylist.get(Executor.statementArraylist.size()-1).whileindex = index;
         try {

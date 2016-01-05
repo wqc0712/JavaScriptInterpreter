@@ -25,7 +25,7 @@ public class IfStatement extends Statement{
 		boolean result =false;
 		Executor.statementArraylist.add(new Segment(3));
 //		Executor.currentScope++;
-		System.out.println("execute-IfStatement");
+//		System.out.println("execute-IfStatement");
 		ExpressionStatement es=new ExpressionStatement(index);
 		try {
 			Value value=es.executeExpression(index);

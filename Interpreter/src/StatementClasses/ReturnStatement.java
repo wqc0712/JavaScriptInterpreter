@@ -17,7 +17,7 @@ public class ReturnStatement extends Statement {
 
     public boolean executeStatement() throws Exception {
         boolean result =true;
-        System.out.println("execute-ReturnStatement");
+//        System.out.println("execute-ReturnStatement");
         Value res=new Value();
         res.setNull(true);
         if(index==-1){//空

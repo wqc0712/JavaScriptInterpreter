@@ -21,7 +21,7 @@ public class OverSegStatement extends Statement {
 
 	public boolean executeStatement(){
 		boolean result =true;
-		System.out.println("execute-OverSegStatement");
+//		System.out.println("execute-OverSegStatement");
 		if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==3){//结束if语句
 			Executor.waitElse=true;
 			Executor.Condition = Executor.statementArraylist.get(Executor.statementArraylist.size()-1).trueOrfalse;

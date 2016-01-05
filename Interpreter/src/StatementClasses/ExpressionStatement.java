@@ -34,7 +34,7 @@ public class ExpressionStatement extends Statement {
     //给词法语法分析调用
     public boolean executeStatement(){
         boolean result =true;
-        System.out.println("excecute-ExpressionStatement");
+//        System.out.println("excecute-ExpressionStatement");
         try {
             Value v=executeExpression(index);
             if(v.getType()==2){

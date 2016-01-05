@@ -29,7 +29,7 @@ public class FuncCallStatement extends Statement{
 
 	public boolean executeStatement() throws Exception {
 		boolean result =true;
-		System.out.println("execute-FuncCallStatement"+funcname);
+//		System.out.println("execute-FuncCallStatement"+funcname);
 		ExpressionStatement es=new ExpressionStatement(0);
 		Executor executor=new Executor();
 		if(Sysfunction.contains(funcname)){//系统函数

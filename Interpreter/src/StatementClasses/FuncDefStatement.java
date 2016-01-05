@@ -29,7 +29,7 @@ public class FuncDefStatement extends Statement {
 
 	public boolean executeStatement(){
 		boolean result =true;
-		System.out.println("execute-FuncdefStatement");
+//		System.out.println("execute-FuncdefStatement");
 		ExpressionStatement es=new ExpressionStatement(0);
 		//取变量名
 		for (int i=0;i<paramlist.size();i++){

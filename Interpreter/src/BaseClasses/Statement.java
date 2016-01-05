@@ -10,7 +10,7 @@ public class Statement {
 
 	public boolean executeStatement() throws Exception {
 		boolean result =true;
-		System.out.println("statement");
+//		System.out.println("statement");
 		return result;
 	}
 
