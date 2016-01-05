@@ -368,4 +368,22 @@ public class Value {
 		}
 		return result;
 	}
+	public void print(){
+		switch (type){
+			case 2:
+				System.out.println("*String*"+" "+stringvalue);
+				break;
+			case 3:
+				System.out.println("*Boolean*"+" "+booleanvalue);
+				break;
+			case 4:
+				System.out.println("*Double*"+" "+doublevalue);
+				break;
+			case 5:
+				System.out.println("*Array*"+" "+arrayvalue);
+				break;
+			case 6:
+				System.out.println("*Object*"+" "+objectvalue);
+		}
+	}
 }

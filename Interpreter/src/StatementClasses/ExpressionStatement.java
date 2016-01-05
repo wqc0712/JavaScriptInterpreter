@@ -147,7 +147,7 @@ public class ExpressionStatement extends Statement {
         else if (ExpressionQueue.getInstance().Geti(index).Type==11){//数组
             Variable var=Executor.getVariable(ExpressionQueue.getInstance().Geti(ExpressionQueue.getInstance().Geti(index).lefthand).identifier);
 
-            Value res=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand);
+            Value res=executeExpression(ExpressionQueue.getInstance().Geti(index).index);
             if(res.getType()!=4) {
                 throw new Exception("数组下标必须为数字");
             }
@@ -156,11 +156,11 @@ public class ExpressionStatement extends Statement {
         else if (ExpressionQueue.getInstance().Geti(index).Type==12){//对象
             Variable var=Executor.getVariable(ExpressionQueue.getInstance().Geti(ExpressionQueue.getInstance().Geti(index).lefthand).identifier);
 
-            Value res=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand);
-            if(res.getType()!=2) {
-                throw new Exception("对象key值必须为字符串");
-            }
-            return var.getValue().getObjectvalue().get(res.getStringvalue());
+//            Value res=executeExpression(ExpressionQueue.getInstance().Geti(index).index);
+//            if(res.getType()!=2) {
+//                throw new Exception("对象key值必须为字符串");
+//            }
+            return var.getValue().getObjectvalue().get(ExpressionQueue.getInstance().Geti(index).identifier);
         }
         else if(ExpressionQueue.getInstance().Geti(index).Type==10){//函数
             ArrayList<Integer> varArraylist=ExpressionQueue.getInstance().Geti(index).Parameter;
@@ -169,6 +169,10 @@ public class ExpressionStatement extends Statement {
             if(fs.executeStatement()){//执行函数
                 result=Executor.getReturnvalue();
             }
+        }
+        else if(ExpressionQueue.getInstance().Geti(index).Type==13){//new
+            int findex=ExpressionQueue.getInstance().Geti(index).righthand;
+            result=executeExpression(findex);
         }
         else{
             if(ExpressionQueue.getInstance().Geti(index).Type==1){//值
@@ -218,18 +222,16 @@ public class ExpressionStatement extends Statement {
             Executor.getVariable(leftExpression.identifier).setValue(value);
         }
         else if (leftExpression.Type==11){//左边是数组
-            if(executeExpression(leftExpression.righthand).getType()!=4){
-                throw new Exception("数组下标必须为数字");
-            }
-            int num=Integer.parseInt(new DecimalFormat("0").format(executeExpression(leftExpression.righthand).getDoublevalue()));
-
-            Executor.getVariable(ExpressionQueue.getInstance().Geti(leftExpression.lefthand).identifier).getValue().getArrayvalue().set(num,value);
+//            if(executeExpression(leftExpression.righthand).getType()!=4){
+//                throw new Exception("数组下标必须为数字");
+//            }
+            int num=Integer.parseInt(new DecimalFormat("0").format(executeExpression(leftExpression.index).getDoublevalue()));
+//            int num=executeExpression(leftExpression.index).getDoublevalue();
+            Executor.getVariable(ExpressionQueue.getInstance().Geti(leftExpression.lefthand).identifier).getValue().getArrayvalue().add(num,value);//set(num,value);
         }
-        else if (leftExpression.Type==12){//左边是对象
-            if(executeExpression(leftExpression.righthand).getType()!=2){
-                throw new Exception("对象key值必须为字符串");
-            }
-            String key=executeExpression(leftExpression.righthand).getStringvalue();
+        else if (leftExpression.Type==12){//左边是对象a.first=2;
+
+            String key=leftExpression.identifier;
             Executor.getVariable(ExpressionQueue.getInstance().Geti(leftExpression.lefthand).identifier).getValue().getObjectvalue().put(key,value);
         }
         else{

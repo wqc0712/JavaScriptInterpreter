@@ -46,7 +46,14 @@ public class FuncCallStatement extends Statement{
 					}
 					else {
 						res.setType(5);
-						res.setArrayvalue(new ArrayList<Value>(Integer.parseInt(new DecimalFormat("0").format(es.executeExpression(varlist.get(0)).getDoublevalue()))));
+						int i=Integer.parseInt(new DecimalFormat("0").format(es.executeExpression(varlist.get(0)).getDoublevalue()));
+						res.setArrayvalue(new ArrayList<Value>());
+						for (int j=0;j<i;j++){
+							Value a=new Value();
+							a.setNull(true);
+							res.getArrayvalue().add(a);
+						}
+
 					}
 
 				}
@@ -70,7 +77,7 @@ public class FuncCallStatement extends Statement{
 					throw new Exception("参数数量错误");
 				}
 				else {
-					System.out.println(es.executeExpression(varlist.get(0)));
+					es.executeExpression(varlist.get(0)).print();
 				}
 			}
 			Executor.setReturnvalue(res);
