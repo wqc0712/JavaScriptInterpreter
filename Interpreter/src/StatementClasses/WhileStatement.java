@@ -22,6 +22,7 @@ public class WhileStatement extends Statement {
 //        Executor.currentScope++;
         System.out.println("execute-WhileStatement");
         ExpressionStatement es = new ExpressionStatement(index);
+        Executor.statementArraylist.get(Executor.statementArraylist.size()-1).whileindex = index;
         try {
             Value value=es.executeExpression(index);
             if(value.getType()!=3){
