@@ -124,11 +124,11 @@ public class ExpressionStatement extends Statement {
         else if(ExpressionQueue.getInstance().Geti(index).Type==5){//只有右值
             if(ExpressionQueue.getInstance().Geti(index).operator==7){//++a
                 result=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand).addself(false);
-                assignStatement(result.addself(false),index,false);
+                assignStatement(result,index,false);
             }
             else if(ExpressionQueue.getInstance().Geti(index).operator==8){//--
                 result=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand).minusself(false);
-                assignStatement(result.minusself(false),index,false);
+                assignStatement(result,index,false);
             }
             else if(ExpressionQueue.getInstance().Geti(index).operator==11){//!
                 result=executeExpression(ExpressionQueue.getInstance().Geti(index).righthand).not();
@@ -194,6 +194,9 @@ public class ExpressionStatement extends Statement {
             }
             else if (ExpressionQueue.getInstance().Geti(index).Type==3){//变量
                 result= Executor.getVariable(ExpressionQueue.getInstance().Geti(index).identifier).getValue();
+                if(result==null){
+                    throw  new Exception("找不到变量.");
+                }
             }
             else{
                 throw new Exception("unknown type");

@@ -32,11 +32,12 @@ public class FuncDefStatement extends Statement {
 		System.out.println("execute-FuncdefStatement");
 		ExpressionStatement es=new ExpressionStatement(0);
 		//取变量名
-		for (int i=0;i<paramList.size();i++){
-			paramList.add(ExpressionQueue.getInstance().Geti(paramlist.get(i)).StringData);
+		for (int i=0;i<paramlist.size();i++){
+			paramList.add(ExpressionQueue.getInstance().Geti(paramlist.get(i)).identifier);
 		}
 		Function function=new Function(name,paramList);
 		function.setScope(Executor.currentScope);
+//		Executor.currentScope++;
 		Executor.statementArraylist.add(new Segment(9));
 //		Executor.funcDefFlag=true;
 		Executor.functionArraylist.add(function);

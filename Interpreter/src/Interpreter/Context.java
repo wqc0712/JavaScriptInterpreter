@@ -30,7 +30,7 @@ public class Context {
     private int Expression2;
     private int Expression3;
     private ArrayList<Integer> argms;
-    Executor Exe = null;
+    static Executor Exe = new Executor();
     //private SingleExpression S1;
     /*
         0------------idle
@@ -59,7 +59,7 @@ public class Context {
         identifier = "";
         varinit = false;
         //S1 = NULL;
-        Exe = new Executor();
+        //Exe = new Executor();
         return 0;
 
     }
@@ -160,10 +160,12 @@ public class Context {
     }
 
     public int EndofReturn() {
-        /*
-            Create a return Object
-            set value = S1;
-         */
+        ReturnStatement S = new ReturnStatement(Expression1);
+        try {
+            Exe.ExecuteStatement(S);
+        } catch (Exception Err) {
+
+        }
         statue.pop();
         return 0;
     }
@@ -238,7 +240,7 @@ public class Context {
                 }
             }
             case 8:{
-                argms.add(index);
+                //argms.add(index);
                 break;
             }
             case 9:{
@@ -273,7 +275,7 @@ public class Context {
     public int EndExpression(int index) {
         statue.pop();
         int s = statue.peek();
-        if (s == 1 || s == 6 || s == 5 || s == 12 || s == 14 || s == 0
+        if (s == 1 || s == 6 || s == 5 || s == 12 || s == 14 || s == 0 || s == 16
             /*&& something else */){
             try {
                 ExpressionStatement E = new ExpressionStatement(index);
@@ -287,12 +289,19 @@ public class Context {
 
     public int VisitArgument(int index) {
         statue.push(8);
+        System.out.println("Function Call!");
         argms = new ArrayList<Integer>();
         return 0;
     }
 
     public ArrayList<Integer> AskForArgument() {
         return argms;
+    }
+
+    public int ArgumentFinish(int index) {
+        statue.pop();
+
+        return 0;
     }
 
     public int ForStatementBegin() {
@@ -371,6 +380,12 @@ public class Context {
 
     public int FunctionBodyBegin() {
         if (statue.peek() == 15) {
+            FuncDefStatement F = new FuncDefStatement(identifier,argms);
+            try {
+                Exe.ExecuteStatement(F);
+            } catch (Exception Err) {
+
+            }
             statue.pop();
             statue.push(16);
             return 0;
@@ -381,6 +396,12 @@ public class Context {
     }
 
     public int FunctionBodyEnd() {
+        OverSegStatement E = new OverSegStatement();
+        try {
+            Exe.ExecuteStatement(E);
+        } catch (Exception Err) {
+            Err.printStackTrace();
+        }
         statue.pop();
         return 0;
     }

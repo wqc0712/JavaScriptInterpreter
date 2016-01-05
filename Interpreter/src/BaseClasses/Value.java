@@ -37,11 +37,7 @@ public class Value {
 			this.booleanvalue = booleanvalue;
 			this.type=type;
 		}
-	public Value(int intvalue,int type) {
-			super();
-			this.intvalue = intvalue;
-			this.type=type;
-		}
+
 	public  Value(ArrayList<Value> arrayvalue){super();this.type=5;this.arrayvalue=arrayvalue;}
 	public  Value(){super();}
 	public Value(Map<String, Value> objectvalue) {
