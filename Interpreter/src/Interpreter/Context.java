@@ -3,6 +3,7 @@ package Interpreter;
 import StatementClasses.*;
 import StatementExecuteClasses.Executor;
 
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -137,17 +138,23 @@ public class Context {
     }
 
     public int SignalBreak() {
-        /*
-            Create a BreakObject
-         */
+        BreakStatement s = new BreakStatement();
+        try {
+            Exe.ExecuteStatement(s);
+        } catch (Exception Err) {
+
+        }
         System.out.println("BreakAssignment");
         return 0;
     }
 
     public int SignalContinue() {
-        /*
-            Create a ContinueObject
-         */
+       /* ContinueStatement s = new ContinueStatement();
+        try {
+            Exe.ExecuteStatement(s);
+        } catch (Exception Err) {
+
+        }*/
         System.out.println("Continue!");
         return 0;
     }
@@ -314,12 +321,12 @@ public class Context {
             System.err.println("Wrong For Statement!");
             return -1;
         } else {
-            /*
-                create a for expression
-                Expression1
-                Expression2
-                Expression3
-             */
+            ForStatement s = new ForStatement(Expression1,Expression2,Expression3);
+            try {
+                Exe.ExecuteStatement(s);
+            } catch (Exception Err) {
+
+            }
         }
         return 0;
     }
@@ -348,9 +355,13 @@ public class Context {
             return -1;
         } else {
             /*
-                create a While expression
-                Expression1
-             */
+            WhileStatement s = new WhileStatement(Expression1);
+            try {
+                Exe.ExecuteStatement(s);
+            } catch (Exception Err) {
+
+            }
+            */
         }
         return 0;
     }

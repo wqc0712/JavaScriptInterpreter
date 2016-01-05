@@ -26,7 +26,7 @@ public class Executor {
 	public static boolean waitElse=false;//if语句执行完，等待else语句执行
 	public static ArrayList<Segment> statementArraylist=new ArrayList<Segment>();//存放当前处于的语句段的list
 	public static ArrayList<Function> functionArraylist=new ArrayList<Function>();//function的list
-	
+	public static boolean Condition=true;//if语句条件结果保存
 	
 	//运行语句的方法，给语法分析器调用
 	public boolean ExecuteStatement(Statement statement) throws Exception{
@@ -52,11 +52,11 @@ public class Executor {
 				}
 				else{//既不在if又不在else中
 					if(statement.getClass().equals(ElseStatement.class)){//else语句
-						if (!waitElse) {
-							result=false;
-							Exception exception=new Exception("当前不应该存在一个else语句");
-							throw exception;
-						}
+							if (!waitElse) {
+								result=false;
+								Exception exception=new Exception("当前不应该存在一个else语句");
+								throw exception;
+							}
 						else{
 							result=statement.executeStatement();
 						}
@@ -64,11 +64,16 @@ public class Executor {
 					else {//非else语句
 						result=statement.executeStatement();
 					}
+					if (waitElse) {
+						waitElse=false;
+					}
 				}
+				/*
+					这里好像有点问题
 				if (waitElse) {
 					waitElse=false;
 				}
-
+				*/
 			}
 			else{//是函数定义中的语句，直接加入函数体
 				if(statement.getClass().equals(OverSegStatement.class)){//定义结束
@@ -127,8 +132,10 @@ public class Executor {
 	}
 	
 	public static void removeInvalidVarFunc(){//代码段结束，清除scope过期的变量、方法
+		//TODO 此处有逻辑上的问题
+		System.out.println("Clean! Current Scope="+currentScope);
 		for(int i=varArraylist.size()-1;i>=0;i--){
-			if(varArraylist.get(i).getScope()>=currentScope){
+			if(varArraylist.get(i).getScope()>=currentScope && varArraylist.get(i).getScope() != 0){
 				varArraylist.remove(i);
 			}
 			else{
@@ -136,7 +143,7 @@ public class Executor {
 			}
 		}
 		for(int i=functionArraylist.size()-1;i>=0;i--){
-			if(functionArraylist.get(i).getScope()>=currentScope){
+			if(functionArraylist.get(i).getScope()>=currentScope && functionArraylist.get(i).getScope() != 0){
 				functionArraylist.remove(i);
 			}
 			else{

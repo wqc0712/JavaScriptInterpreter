@@ -22,12 +22,13 @@ public class OverSegStatement extends Statement {
 		System.out.println("execute-OverSegStatement");
 		if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==3){//结束if语句
 			Executor.waitElse=true;
+			Executor.Condition = Executor.statementArraylist.get(Executor.statementArraylist.size()-1).trueOrfalse;
 		}
 
 //		else if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==9){//结束函数定义
 //			Executor.funcDefFlag=false;
 //		}
-		if (!(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==9)){//不是函数定义中的结束
+		if ((Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==8)){//不是函数定义中的结束
 			Executor.removeInvalidVarFunc();
 		}
 		else {

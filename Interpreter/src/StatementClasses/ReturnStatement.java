@@ -31,7 +31,10 @@ public class ReturnStatement extends Statement {
             if(Executor.statementArraylist.get(i).type==8){//函数调用
                 Executor.setReturnvalue(res);
                 Executor.statementArraylist.remove(i);
+                //TODO 此处应该修改Scope
+                Executor.removeInvalidVarFunc();
 //                Executor.currentScope--;
+                break;
             }
             else{//读到其他语句,通通结束
                 Executor.statementArraylist.remove(i);
