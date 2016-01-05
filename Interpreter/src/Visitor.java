@@ -568,6 +568,7 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
         Context.getInstance().VisitArgument(index);
         visit(ctx.arguments());
         E.Parameter = Context.getInstance().AskForArgument();
+        Context.getInstance().ArgumentFinish(index);
         Context.getInstance().EndExpression(index);
         return null;
     }

@@ -10,10 +10,7 @@ import BaseClasses.Segment;
 import BaseClasses.Statement;
 import BaseClasses.Value;
 import BaseClasses.Variable;
-import StatementClasses.ElseStatement;
-import StatementClasses.FuncCallStatement;
-import StatementClasses.OverSegStatement;
-import StatementClasses.VarDeclStatement;
+import StatementClasses.*;
 
 /**
  * @author viki
@@ -22,6 +19,7 @@ import StatementClasses.VarDeclStatement;
 public class Executor {
 
 	public static int currentScope=0;//当前作用域的值
+	public static boolean isFuncCall=false;
 	public static ArrayList<Variable> varArraylist=new ArrayList<Variable>();//变量的list
 //	private static Value returnvalue=new  Value(0,1);
 	private static ArrayList<Value> returnvalue=new ArrayList<Value>();//返回值的list
@@ -34,53 +32,53 @@ public class Executor {
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
 		if(statementArraylist.size()!=0){
-		if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){ //不是函数定义中的语句
+			if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
 			
-			if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
-				if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
-					result=statement.executeStatement();
-				}
-				else {
-					result=true;
-				}
-			}
-			else if(statementArraylist.get(statementArraylist.size()-1).type==4){//在else语句体中
-				if((!statementArraylist.get(statementArraylist.size()-1).trueOrfalse)||statement.getClass().equals(OverSegStatement.class)){//条件为否或是结束语句体语句，否则不执行该语句
-					result=statement.executeStatement();
-				}
-				else {
-					result=true;
-				}
-			}
-			else{
-				if(statement.getClass().equals(ElseStatement.class)){//else语句
-					if (!waitElse) {
-						result=false;
-						Exception exception=new Exception("当前不应该存在一个else语句");
-						throw exception;
+				if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
+					if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
+						result=statement.executeStatement();
 					}
-					else{
+					else {
+						result=true;
+					}
+				}
+				else if(statementArraylist.get(statementArraylist.size()-1).type==4){//在else语句体中
+					if((!statementArraylist.get(statementArraylist.size()-1).trueOrfalse)||statement.getClass().equals(OverSegStatement.class)){//条件为否或是结束语句体语句，否则不执行该语句
+						result=statement.executeStatement();
+					}
+					else {
+						result=true;
+					}
+				}
+				else{//既不在if又不在else中
+					if(statement.getClass().equals(ElseStatement.class)){//else语句
+						if (!waitElse) {
+							result=false;
+							Exception exception=new Exception("当前不应该存在一个else语句");
+							throw exception;
+						}
+						else{
+							result=statement.executeStatement();
+						}
+					}
+					else {//非else语句
 						result=statement.executeStatement();
 					}
 				}
-				else {
+				if (waitElse) {
+					waitElse=false;
+				}
+
+			}
+			else{//是函数定义中的语句，直接加入函数体
+				if(statement.getClass().equals(OverSegStatement.class)){//定义结束
 					result=statement.executeStatement();
 				}
+				else {
+					functionArraylist.get(functionArraylist.size()-1).getFunctionBody().add(statement);
+					result=true;
+				}
 			}
-			if (waitElse) {
-				waitElse=false;
-			}
-			
-		}
-		else{//是函数定义中的语句，直接加入函数体
-			if(statement.getClass().equals(OverSegStatement.class)){//定义结束
-				result=statement.executeStatement();
-			}
-			else {
-				functionArraylist.get(functionArraylist.size()-1).getFunctionBody().add(statement);
-				result=true;
-			}
-		}
 		}
 		else{
 			result=statement.executeStatement();
@@ -102,14 +100,30 @@ public class Executor {
 	}
 	
 	public static Variable getVariable(String name){//通过名字查找变量
-		Variable variable=new Variable("", -1);
-		for(int i=varArraylist.size();i>0;i--){
+		Variable variable=null;
+		for(int i=varArraylist.size();i>=0;i--){
+			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
+				break;
+			}
 			if(varArraylist.get(i-1).getName().equals(name)){
 				variable=varArraylist.get(i-1);
 				break;
 			}
 		}
 		return variable;
+	}
+	public static Function getFunction(String name){//通过名字查找函数
+		Function func=null;
+		for(int i=functionArraylist.size();i>=0;i--){
+//			if(isFuncCall&&functionArraylist.get(i-1).getScope()!=currentScope){//isFuncCall
+//				break;
+//			}
+			if(functionArraylist.get(i-1).getName().equals(name)){
+				func=functionArraylist.get(i-1);
+				break;
+			}
+		}
+		return func;
 	}
 	
 	public static void removeInvalidVarFunc(){//代码段结束，清除scope过期的变量、方法

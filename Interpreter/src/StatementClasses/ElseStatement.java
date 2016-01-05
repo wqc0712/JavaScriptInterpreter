@@ -12,7 +12,7 @@ public class ElseStatement extends Statement{
 	public boolean executeStatement(){
 		boolean result=false;
 		Executor.statementArraylist.add(new Segment(4));
-		Executor.currentScope++;
+//		Executor.currentScope++;
 		System.out.println("execute-ElseStatement");
 		return result;
 	}

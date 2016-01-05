@@ -18,12 +18,13 @@ public class IfStatement extends Statement{
 
 	public IfStatement(int index) {
 		this.index = index;
+		this.setType(3);
 	}
 
 	public boolean executeStatement(){
 		boolean result =false;
 		Executor.statementArraylist.add(new Segment(3));
-		Executor.currentScope++;
+//		Executor.currentScope++;
 		System.out.println("execute-IfStatement");
 		ExpressionStatement es=new ExpressionStatement(index);
 		try {
