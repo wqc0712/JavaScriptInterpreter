@@ -14,7 +14,7 @@ public class Context {
     private static Context Instance = new Context();
     public static Context getInstance() {return Instance;}
     private Context() {
-        statue = new Stack();
+        statue = new Stack<>();
         varinit =false;
         argms = null;
         Expression1 = 0;
@@ -371,6 +371,7 @@ public class Context {
 
     public int FunctionBodyBegin() {
         if (statue.peek() == 15) {
+
             statue.pop();
             statue.push(16);
             return 0;

@@ -588,7 +588,7 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
         if (ctx.formalParameterList() != null) {
             visit(ctx.formalParameterList());//TODO for the Parameter
         }
-        ArrayList<Integer> a = Context.getInstance().SetFunctionPara();
+        //ArrayList<Integer> a = Context.getInstance().SetFunctionPara();
         Context.getInstance().FunctionBodyBegin();
         visit(ctx.functionBody());
         Context.getInstance().FunctionBodyEnd();
