@@ -28,7 +28,7 @@ public class Executor {
 	public static ArrayList<Function> functionArraylist=new ArrayList<Function>();//function的list
 	public static boolean Condition=true;//if语句条件结果保存
 
-	
+
 	//运行语句的方法，给语法分析器调用
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
@@ -106,11 +106,11 @@ public class Executor {
 				}
 				else{//既不在if又不在else中
 					if(statement.getClass().equals(ElseStatement.class)){//else语句
-						if (!waitElse) {
-							result=false;
-							Exception exception=new Exception("当前不应该存在一个else语句");
-							throw exception;
-						}
+							if (!waitElse) {
+								result=false;
+								Exception exception=new Exception("当前不应该存在一个else语句");
+								throw exception;
+							}
 						else{
 							result=statement.executeStatement();
 						}
@@ -118,11 +118,16 @@ public class Executor {
 					else {//非else语句
 						result=statement.executeStatement();
 					}
+					if (waitElse) {
+						waitElse=false;
+					}
 				}
+				/*
+					这里好像有点问题
 				if (waitElse) {
 					waitElse=false;
 				}
-
+				*/
 			}
 			else{//是函数定义中的语句，直接加入函数体
 				if(statement.getClass().equals(OverSegStatement.class)){//定义结束
@@ -155,12 +160,12 @@ public class Executor {
 	
 	public static Variable getVariable(String name){//通过名字查找变量
 		Variable variable=null;
-		for(int i=varArraylist.size();i>=0;i--){
-			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
-				break;
-			}
-			if(varArraylist.get(i-1).getName().equals(name)){
-				variable=varArraylist.get(i-1);
+		for(int i=varArraylist.size()-1;i>=0;i--){
+			//if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
+			//	break;
+			//}
+			if(varArraylist.get(i).getName().equals(name)){
+				variable=varArraylist.get(i);
 				break;
 			}
 		}
@@ -168,12 +173,12 @@ public class Executor {
 	}
 	public static Function getFunction(String name){//通过名字查找函数
 		Function func=null;
-		for(int i=functionArraylist.size();i>=0;i--){
+		for(int i=functionArraylist.size()-1;i>=0;i--){
 //			if(isFuncCall&&functionArraylist.get(i-1).getScope()!=currentScope){//isFuncCall
 //				break;
 //			}
-			if(functionArraylist.get(i-1).getName().equals(name)){
-				func=functionArraylist.get(i-1);
+			if(functionArraylist.get(i).getName().equals(name)){
+				func=functionArraylist.get(i);
 				break;
 			}
 		}
@@ -181,8 +186,10 @@ public class Executor {
 	}
 	
 	public static void removeInvalidVarFunc(){//代码段结束，清除scope过期的变量、方法
+		//TODO 此处有逻辑上的问题
+		System.out.println("Clean! Current Scope="+currentScope);
 		for(int i=varArraylist.size()-1;i>=0;i--){
-			if(varArraylist.get(i).getScope()>=currentScope){
+			if(varArraylist.get(i).getScope()>=currentScope && varArraylist.get(i).getScope() != 0){
 				varArraylist.remove(i);
 			}
 			else{
@@ -190,7 +197,7 @@ public class Executor {
 			}
 		}
 		for(int i=functionArraylist.size()-1;i>=0;i--){
-			if(functionArraylist.get(i).getScope()>=currentScope){
+			if(functionArraylist.get(i).getScope()>=currentScope && functionArraylist.get(i).getScope() != 0){
 				functionArraylist.remove(i);
 			}
 			else{

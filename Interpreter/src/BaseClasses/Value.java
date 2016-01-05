@@ -20,6 +20,7 @@ public class Value {
 	double doublevalue;
 	ArrayList<Value> arrayvalue;
 	Map<String,Value> objectvalue;
+	int index;//object,function
 
 	//constructors
 	public Value(double doublevalue,int type) {
