@@ -58,7 +58,7 @@ public class Executor {
 							} catch (Exception Err) {
 								Err.printStackTrace();
 							}
-
+							statement.executeStatement();
 						}
 						result = true;
                     }
