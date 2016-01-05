@@ -32,9 +32,37 @@ public class Executor {
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
 		if(statementArraylist.size()!=0){
-			if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
-			
-				if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
+
+            if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
+                if(statementArraylist.get(statementArraylist.size()-1).type==6){	//在while语句中
+                    if(statementArraylist.get(statementArraylist.size()-1).whilerepeat == true){	//当前可以执行循环
+                        if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
+                            result = statement.executeStatement();
+                            statementArraylist.get(statementArraylist.size()-1).whilestatement.add(statement);
+                        }
+                        else{
+                            result = statement.executeStatement();
+                        }
+                    }
+                    else{
+                        result = false;
+                    }
+                }
+                else if(statementArraylist.get(statementArraylist.size()-1).type==5){	//在for语句中
+                    if(statementArraylist.get(statementArraylist.size()-1).forrepeat == true){	//当前可以执行循环
+                        if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
+                            result = statement.executeStatement();
+                            statementArraylist.get(statementArraylist.size()-1).forstatement.add(statement);
+                        }
+                        else{
+                            result = statement.executeStatement();
+                        }
+                    }
+                    else{
+                        result = false;
+                    }
+                }
+                else if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
 					if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
 						result=statement.executeStatement();
 					}
@@ -106,12 +134,12 @@ public class Executor {
 	
 	public static Variable getVariable(String name){//通过名字查找变量
 		Variable variable=null;
-		for(int i=varArraylist.size();i>=0;i--){
-//			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
-//				break;
-//			}
-			if(varArraylist.get(i-1).getName().equals(name)){
-				variable=varArraylist.get(i-1);
+		for(int i=varArraylist.size()-1;i>=0;i--){
+			//if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
+			//	break;
+			//}
+			if(varArraylist.get(i).getName().equals(name)){
+				variable=varArraylist.get(i);
 				break;
 			}
 		}
@@ -119,12 +147,12 @@ public class Executor {
 	}
 	public static Function getFunction(String name){//通过名字查找函数
 		Function func=null;
-		for(int i=functionArraylist.size();i>=0;i--){
+		for(int i=functionArraylist.size()-1;i>=0;i--){
 //			if(isFuncCall&&functionArraylist.get(i-1).getScope()!=currentScope){//isFuncCall
 //				break;
 //			}
-			if(functionArraylist.get(i-1).getName().equals(name)){
-				func=functionArraylist.get(i-1);
+			if(functionArraylist.get(i).getName().equals(name)){
+				func=functionArraylist.get(i);
 				break;
 			}
 		}

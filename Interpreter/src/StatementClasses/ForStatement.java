@@ -29,7 +29,6 @@ public class ForStatement extends Statement {
     public boolean executeStatement(){
         boolean result = false;
         Executor.statementArraylist.add(new Segment(5));
-        Executor.currentScope++;
         System.out.println("execute-ForStatement");
         ExpressionStatement es_init = new ExpressionStatement(index_init);
         ExpressionStatement ex_judge = new ExpressionStatement(index_judge);

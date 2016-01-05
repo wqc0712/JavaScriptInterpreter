@@ -4,7 +4,9 @@
 package StatementClasses;
 
 import BaseClasses.Function;
+import BaseClasses.Segment;
 import BaseClasses.Statement;
+import BaseClasses.Value;
 import StatementExecuteClasses.Executor;
 
 import java.util.ArrayList;
@@ -24,6 +26,46 @@ public class OverSegStatement extends Statement {
 			Executor.waitElse=true;
 			Executor.Condition = Executor.statementArraylist.get(Executor.statementArraylist.size()-1).trueOrfalse;
 		}
+        
+        if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==6){//结束while语句
+            int expressionindex;
+            Value judgevalue = new Value(false,3);
+            expressionindex = Executor.statementArraylist.get(Executor.statementArraylist.size()-1).whileindex;
+            ExpressionStatement es = new ExpressionStatement(0);
+            try {
+                judgevalue = es.executeExpression(expressionindex);
+                if(judgevalue.getBooleanvalue() == true){//继续执行while_segment
+                    Segment repeatsegment = new Segment(6);
+                    repeatsegment = Executor.statementArraylist.get(Executor.statementArraylist.size()-1);
+                    Executor.statementArraylist.add(repeatsegment);
+                }
+                else{	//停止执行
+                    Executor.statementArraylist.get(Executor.statementArraylist.size()-1).whilerepeat = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==5){//结束for语句
+            int expressionindex;
+            Value judgevalue = new Value(false,3);
+            expressionindex = Executor.statementArraylist.get(Executor.statementArraylist.size()-1).forindex2;
+            ExpressionStatement es = new ExpressionStatement(0);
+            try {
+                judgevalue = es.executeExpression(expressionindex);
+                if(judgevalue.getBooleanvalue() == true){//继续执行for_segment
+                    Segment repeatsegment = new Segment(5);
+                    repeatsegment = Executor.statementArraylist.get(Executor.statementArraylist.size()-1);
+                    Executor.statementArraylist.add(repeatsegment);
+                }
+                else{	//停止执行
+                    Executor.statementArraylist.get(Executor.statementArraylist.size()-1).forrepeat = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 //		else if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==9){//结束函数定义
 //			Executor.funcDefFlag=false;
