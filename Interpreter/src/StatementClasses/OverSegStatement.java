@@ -28,10 +28,15 @@ public class OverSegStatement extends Statement {
 //		else if(Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==9){//结束函数定义
 //			Executor.funcDefFlag=false;
 //		}
-		if ((Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==8)){//不是函数定义中的结束
+
+		//TODO 这里的逻辑关系要搞清楚
+		if ((Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type==8)){//函数调用中的结束
 			Executor.removeInvalidVarFunc();
 		}
 		else {
+			if (Executor.statementArraylist.get(Executor.statementArraylist.size()-1).type!=9) {
+
+			} else
 			if(!isFuncdefOver()){//不是函数定义结束
 				Executor.functionArraylist.get(Executor.functionArraylist.size()-1).getFunctionBody().add(new OverSegStatement());
 				return result;
@@ -43,7 +48,12 @@ public class OverSegStatement extends Statement {
 	}
 	public boolean isFuncdefOver(){//是不是函数定义结束
 		boolean res=false;
-		ArrayList<Statement> flist=Executor.functionArraylist.get(Executor.functionArraylist.size()-1).getFunctionBody();
+		ArrayList<Statement> flist = null;
+		if (Executor.functionArraylist.size() > 0) {
+			flist = Executor.functionArraylist.get(Executor.functionArraylist.size() - 1).getFunctionBody();
+		} else {
+			return false;
+		}
 		int statecount=0;
 		int overcount=0;
 		for (int i=0;i<flist.size();i++){
