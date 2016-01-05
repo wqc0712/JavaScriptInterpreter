@@ -107,9 +107,9 @@ public class Executor {
 	public static Variable getVariable(String name){//通过名字查找变量
 		Variable variable=null;
 		for(int i=varArraylist.size();i>=0;i--){
-			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
-				break;
-			}
+//			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
+//				break;
+//			}
 			if(varArraylist.get(i-1).getName().equals(name)){
 				variable=varArraylist.get(i-1);
 				break;
