@@ -35,19 +35,34 @@ public class Executor {
 
             if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
                 if(statementArraylist.get(statementArraylist.size()-1).type==6){	//在while语句中
-                    if(statementArraylist.get(statementArraylist.size()-1).whilerepeat == true){	//当前可以执行循环
+                    //if(statementArraylist.get(statementArraylist.size()-1).whilerepeat == true){	//当前可以执行循环
                         if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
-                            result = statement.executeStatement();
+                            //result = statement.executeStatement();
                             statementArraylist.get(statementArraylist.size()-1).whilestatement.add(statement);
-                        }
-                        else{
-                            result = statement.executeStatement();
-                        }
+                        } else {
+							result = statement.executeStatement();
+							boolean run;
+							ExpressionStatement T = new ExpressionStatement(statementArraylist.get(statementArraylist.size() - 1).whileindex);
+							try {
+								Value valueT = T.executeExpression(statementArraylist.get(statementArraylist.size() - 1).whileindex);
+								run = valueT.getBooleanvalue();
+								while (run) {
+									ArrayList<Statement> S = statementArraylist.get(statementArraylist.size() - 1).whilestatement;
+									for (int i = 0; i < S.size(); i++) {
+										Statement ST = S.get(i);
+										ST.executeStatement();
+									}
+									valueT = T.executeExpression(statementArraylist.get(statementArraylist.size() - 1).whileindex);
+									run = valueT.getBooleanvalue();
+								}
+							} catch (Exception Err) {
+								Err.printStackTrace();
+							}
+
+						}
+						result = true;
                     }
-                    else{
-                        result = false;
-                    }
-                }
+
                 else if(statementArraylist.get(statementArraylist.size()-1).type==5){	//在for语句中
                     if(statementArraylist.get(statementArraylist.size()-1).forrepeat == true){	//当前可以执行循环
                         if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
