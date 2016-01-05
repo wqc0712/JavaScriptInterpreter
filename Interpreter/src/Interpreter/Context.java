@@ -52,6 +52,8 @@ public class Context {
         15-----------Function Declaration, havn't meet Function Body
         16-----------Function Declaration, meeting function body
         17-----------New Statement
+        18-----------For Statement, Can read input.
+        19-----------While Statement, Can read input.
      */
 
     public int initial() {
@@ -69,7 +71,7 @@ public class Context {
         if (statue.peek() == 2) {
             return -1;
         } else {
-            if (statue.peek() != 5 && statue.peek() != 6 && statue.peek() != 12 && statue.peek() != 16 && statue.peek() != 14) {
+            if (statue.peek() != 5 && statue.peek() != 6 && statue.peek() != 18 && statue.peek() != 16 && statue.peek() != 19) {
                 NewSegStatement E = new NewSegStatement();
                 try {
                     Exe.ExecuteStatement(E);
@@ -282,7 +284,7 @@ public class Context {
     public int EndExpression(int index) {
         statue.pop();
         int s = statue.peek();
-        if (s == 1 || s == 6 || s == 5 || s == 12 || s == 14 || s == 0 || s == 16
+        if (s == 1 || s == 6 || s == 5 || s == 18 || s == 19 || s == 0 || s == 16
             /*&& something else */){
             try {
                 ExpressionStatement E = new ExpressionStatement(index);
@@ -321,6 +323,8 @@ public class Context {
             System.err.println("Wrong For Statement!");
             return -1;
         } else {
+            statue.pop();
+            statue.push(18);
             ForStatement s = new ForStatement(Expression1,Expression2,Expression3);
             try {
                 Exe.ExecuteStatement(s);
@@ -332,7 +336,7 @@ public class Context {
     }
 
     public int ForStatementBodyEnd() {
-        if (statue.peek() != 12) {
+        if (statue.peek() != 18) {
             System.err.println("Wrong For Statement!");
             return -1;
         } else {
@@ -354,20 +358,20 @@ public class Context {
             System.err.println("Wrong While Statement!");
             return -1;
         } else {
-            /*
+            statue.pop();
+            statue.push(19);
             WhileStatement s = new WhileStatement(Expression1);
             try {
                 Exe.ExecuteStatement(s);
             } catch (Exception Err) {
 
             }
-            */
         }
         return 0;
     }
 
     public int WhileStatementBodyEnd() {
-        if (statue.peek() != 14) {
+        if (statue.peek() != 19) {
             System.err.println("Wrong While Statement!");
             return -1;
         } else {
