@@ -27,17 +27,15 @@ public class Executor {
 	public static ArrayList<Segment> statementArraylist=new ArrayList<Segment>();//存放当前处于的语句段的list
 	public static ArrayList<Function> functionArraylist=new ArrayList<Function>();//function的list
 	public static boolean Condition=true;//if语句条件结果保存
+
 	
 	//运行语句的方法，给语法分析器调用
 	public boolean ExecuteStatement(Statement statement) throws Exception{
 		boolean result=false;
 		if(statementArraylist.size()!=0){
-            
-            if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
-                if(statementArraylist.get(statementArraylist.size()-1).type==6){	//在while语句中
-                    //if(statementArraylist.get(statementArraylist.size()-1).whilerepeat == true){	//当前可以执行循环
+			if(!(statementArraylist.get(statementArraylist.size()-1).type==9)){
+				if(statementArraylist.get(statementArraylist.size()-1).type==6){	//在while语句中
                         if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
-                            //result = statement.executeStatement();
                             statementArraylist.get(statementArraylist.size()-1).whilestatement.add(statement);
                         } else {
 							result = statement.executeStatement();
@@ -58,26 +56,39 @@ public class Executor {
 							} catch (Exception Err) {
 								Err.printStackTrace();
 							}
-
+							statement.executeStatement();
 						}
 						result = true;
                     }
+			else if(statementArraylist.get(statementArraylist.size()-1).type==5){	//在for语句中
+                if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
+                    statementArraylist.get(statementArraylist.size()-1).forstatement.add(statement);
+                } else {
 
-                else if(statementArraylist.get(statementArraylist.size()-1).type==5){	//在for语句中
-                    if(statementArraylist.get(statementArraylist.size()-1).forrepeat == true){	//当前可以执行循环
-                        if(!statement.getClass().equals(OverSegStatement.class)){	//不是最后一句
-                            result = statement.executeStatement();
-                            statementArraylist.get(statementArraylist.size()-1).forstatement.add(statement);
-                        }
-                        else{
-                            result = statement.executeStatement();
-                        }
-                    }
-                    else{
-                        result = false;
-                    }
-                }
-                else if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
+					boolean run;
+					ExpressionStatement T1 = new ExpressionStatement(statementArraylist.get(statementArraylist.size() - 1).forindex2);
+					ExpressionStatement T2 = new ExpressionStatement(statementArraylist.get(statementArraylist.size() - 1).forindex3);
+					try {
+						Value valueT1 = T1.executeExpression(statementArraylist.get(statementArraylist.size() - 1).forindex2);
+						run = valueT1.getBooleanvalue();
+						while (run) {
+							ArrayList<Statement> S = statementArraylist.get(statementArraylist.size() - 1).forstatement;
+							for (int i = 0; i < S.size(); i++) {
+								Statement ST = S.get(i);
+								ST.executeStatement();
+							}
+							Value valueT2 = T2.executeExpression(statementArraylist.get(statementArraylist.size() - 1).forindex3);
+							valueT1 = T1.executeExpression(statementArraylist.get(statementArraylist.size() - 1).forindex2);
+							run = valueT1.getBooleanvalue();
+						}
+					} catch (Exception Err) {
+						Err.printStackTrace();
+					}
+					statement.executeStatement();
+				}
+				result = true;
+            }
+			else if(statementArraylist.get(statementArraylist.size()-1).type==3){//在if语句体中
 					if(statementArraylist.get(statementArraylist.size()-1).trueOrfalse||statement.getClass().equals(OverSegStatement.class)){//条件为是或是结束语句体语句，否则不应执行该语句
 						result=statement.executeStatement();
 					}
@@ -95,11 +106,11 @@ public class Executor {
 				}
 				else{//既不在if又不在else中
 					if(statement.getClass().equals(ElseStatement.class)){//else语句
-							if (!waitElse) {
-								result=false;
-								Exception exception=new Exception("当前不应该存在一个else语句");
-								throw exception;
-							}
+						if (!waitElse) {
+							result=false;
+							Exception exception=new Exception("当前不应该存在一个else语句");
+							throw exception;
+						}
 						else{
 							result=statement.executeStatement();
 						}
@@ -107,16 +118,11 @@ public class Executor {
 					else {//非else语句
 						result=statement.executeStatement();
 					}
-					if (waitElse) {
-						waitElse=false;
-					}
 				}
-				/*
-					这里好像有点问题
 				if (waitElse) {
 					waitElse=false;
 				}
-				*/
+
 			}
 			else{//是函数定义中的语句，直接加入函数体
 				if(statement.getClass().equals(OverSegStatement.class)){//定义结束
@@ -149,12 +155,12 @@ public class Executor {
 	
 	public static Variable getVariable(String name){//通过名字查找变量
 		Variable variable=null;
-		for(int i=varArraylist.size()-1;i>=0;i--){
-			//if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
-			//	break;
-			//}
-			if(varArraylist.get(i).getName().equals(name)){
-				variable=varArraylist.get(i);
+		for(int i=varArraylist.size();i>=0;i--){
+			if(varArraylist.get(i-1).getScope()<currentScope){//isFuncCall
+				break;
+			}
+			if(varArraylist.get(i-1).getName().equals(name)){
+				variable=varArraylist.get(i-1);
 				break;
 			}
 		}
@@ -162,12 +168,12 @@ public class Executor {
 	}
 	public static Function getFunction(String name){//通过名字查找函数
 		Function func=null;
-		for(int i=functionArraylist.size()-1;i>=0;i--){
+		for(int i=functionArraylist.size();i>=0;i--){
 //			if(isFuncCall&&functionArraylist.get(i-1).getScope()!=currentScope){//isFuncCall
 //				break;
 //			}
-			if(functionArraylist.get(i).getName().equals(name)){
-				func=functionArraylist.get(i);
+			if(functionArraylist.get(i-1).getName().equals(name)){
+				func=functionArraylist.get(i-1);
 				break;
 			}
 		}
@@ -175,10 +181,8 @@ public class Executor {
 	}
 	
 	public static void removeInvalidVarFunc(){//代码段结束，清除scope过期的变量、方法
-		//TODO 此处有逻辑上的问题
-		System.out.println("Clean! Current Scope="+currentScope);
 		for(int i=varArraylist.size()-1;i>=0;i--){
-			if(varArraylist.get(i).getScope()>=currentScope && varArraylist.get(i).getScope() != 0){
+			if(varArraylist.get(i).getScope()>=currentScope){
 				varArraylist.remove(i);
 			}
 			else{
@@ -186,7 +190,7 @@ public class Executor {
 			}
 		}
 		for(int i=functionArraylist.size()-1;i>=0;i--){
-			if(functionArraylist.get(i).getScope()>=currentScope && functionArraylist.get(i).getScope() != 0){
+			if(functionArraylist.get(i).getScope()>=currentScope){
 				functionArraylist.remove(i);
 			}
 			else{

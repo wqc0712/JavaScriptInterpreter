@@ -421,13 +421,19 @@ public class Context {
         return 0;
     }
 
-    public int NewExpressionBegin() {
+    public int NewExpressionBegin(int index) {
         statue.push(17);
         return 0;
     }
 
-    public int NewExpressionEnd() {
+    public int NewExpressionEnd(int index) {
         statue.pop();
+        ExpressionStatement S = new ExpressionStatement(index);
+        try {
+            Exe.ExecuteStatement(S);
+        } catch (Exception Err) {
+
+        }
         return 0;
     }
 }

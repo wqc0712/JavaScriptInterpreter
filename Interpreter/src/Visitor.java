@@ -434,7 +434,7 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
 
     @Override
     public Integer visitArguments(ECMAScriptParser.ArgumentsContext ctx) {
-        visit(ctx.argumentList());
+        if (ctx.argumentList() != null ) visit(ctx.argumentList());
         return null;
     }
 
@@ -848,10 +848,10 @@ public class Visitor extends ECMAScriptBaseVisitor<Integer> {
         int index = ExpressionQueue.getInstance().nextIndex();
         ExpressionQueue.getInstance().createExpression(13);
         Expression E = ExpressionQueue.getInstance().Geti(index);
-        Context.getInstance().NewExpressionBegin();
+        Context.getInstance().NewExpressionBegin(index);
         E.righthand = ExpressionQueue.getInstance().nextIndex();
         visit(ctx.singleExpression());
-        Context.getInstance().NewExpressionEnd();
+        Context.getInstance().NewExpressionEnd(index);
         return null;
     }
 
